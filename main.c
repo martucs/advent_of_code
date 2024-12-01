@@ -48,32 +48,32 @@ int	fill_stacks(int *stack_a, int *stack_b)
 	return (0);
 }
 
-t_list	*find_smallest(int *stack_a, int smallest)
+int	find_smallest(int *stack_a, int smallest)
 {
-	int		min;
-	int		nb;
+	int	min;
+	int	nb;
+	int	tmp;
 	int	i;
-	t_list	*tmp;
 
-	i =0;
-	tmp = NULL;
+	i = 0;
+	tmp = -1;
 	min = 2147483647;
-	if (!smallest)
-		nb = 0;
+	if (smallest == -1)
+		nb = -1;
 	else
 		nb = smallest;
-	while (stack_a[i])
+	while (stack_a && stack_a[i])
 	{
-		if (stack_a[i] == 0 && !smallest)
+		if (stack_a[i] == 0 && smallest == -1)
 		{
 			return (stack_a[i]);
 		}
 		if (stack_a[i] < min && stack_a[i] > nb)
 		{
 			min = stack_a[i];
-			tmp = stack_a;
+			tmp = stack_a[i];
 		}
-		stack_a = stack_a->next;
+		i++;
 	}
 	return (tmp);
 }
@@ -86,7 +86,7 @@ void	order_stacks(int *stack_a, int stack_b)
 
 	i = 0;
 	j = 0;
-	smallest = 0;
+	smallest = -1;
 	while (stack_a[i])
 	{
 		//find_smallest
