@@ -6,7 +6,7 @@
 /*   By: martalop <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 18:00:29 by martalop          #+#    #+#             */
-/*   Updated: 2024/12/01 20:44:33 by martalop         ###   ########.fr       */
+/*   Updated: 2024/12/02 21:48:13 by martalop         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	fill_stacks(int *stack_a, int *stack_b)
 	s_i = 0;
 	line = NULL;
 	line_arr = NULL;
-	fd = open("input", O_RDWR);
+	fd = open("input2", O_RDWR);
 	if (fd == -1)
 		return (write(2, "err\n", 4), 1);
 	line = get_next_line(fd);
-	while (line && s_i < 1000)
+	while (line && s_i < 6)
 	{
 		line_arr = ft_split(line, ' ');
 		if (!line_arr)
@@ -48,55 +48,88 @@ int	fill_stacks(int *stack_a, int *stack_b)
 	return (0);
 }
 
-int	find_smallest(int *stack_a, int smallest)
+void	print_stack(int );
+
+int	find_smallest(int *stack, /*int lenght,*/ int smallest)
 {
 	int	min;
 	int	nb;
 	int	tmp;
 	int	i;
+	int	j;
 
-	i = 0;
-	tmp = -1;
+//	i = 0;
+//	tmp = -1;
 	min = 2147483647;
-	if (smallest == -1)
-		nb = -1;
-	else
-		nb = smallest;
-	while (stack_a && stack_a[i])
+//	if (smallest == -1)
+//		nb = -1;
+//	else
+//		nb = smallest;
+	i = 0;
+	j = 0;
+	while (i < 6)
 	{
-		if (stack_a[i] == 0 && smallest == -1)
+		//printf("Stack[%d]: %d\n", i, stack[i]);
+		if (stack[i] < min && stack[i] > -1)
 		{
-			return (stack_a[i]);
+			min = stack[i];
+			j = i;
 		}
-		if (stack_a[i] < min && stack_a[i] > nb)
+		++i;
+	}
+	stack[j] = -1;
+	return (min);
+
+	while (stack && stack[i] && i < 6)
+	{
+		printf("stack = %d\n", stack[i]);
+		if (stack[i] == 0 && smallest == -1)
 		{
-			min = stack_a[i];
-			tmp = stack_a[i];
+			return (stack[i]);
 		}
+		if (stack[i] < min && stack[i] > -1)
+		{
+			min = stack[i];
+		}
+	/*	if (stack[i] == smallest && min == 2147483647)
+		{
+			printf("stack = %d\n", stack[i]);
+			printf("min = %d\n", min);
+			return (smallest);
+		}*/
 		i++;
 	}
-	return (tmp);
+	return (min);
 }
 
-void	order_stacks(int *stack_a, int stack_b)
+int	*get_ordered_stack(int *stack)
 {
 	int	i;
 	int	j;
+	int	*new_stack;
 	int	smallest;
 
 	i = 0;
 	j = 0;
 	smallest = -1;
-	while (stack_a[i])
+	new_stack = malloc(sizeof(int) * 6);
+	if (!new_stack)
+		return (NULL);
+	while (i < 6)
 	{
 		//find_smallest
-		smallest = find_smallest(stack_a, smallest);
+		smallest = find_smallest(stack, smallest);
+	//	printf("stack in %d: %d\n", i, stack[i]);
+		new_stack[i] = smallest;
+		printf("smallest = %d\n", smallest);
+	//	printf("new_stack in %d: %d\n", i, new_stack[i]);
 		//put it at the top after the last smallest number
 		i++;
 	}
+	return (new_stack);
 }
 
-int	main(void)
+/*int	main(void)
 {
 	int		*stack_a;
 	int		*stack_b;
@@ -114,4 +147,24 @@ int	main(void)
 	// pasar los resultados a valores sin negativos
 	// sumar los resultados
 	return (0);
+}*/
+
+int	main(void)
+{
+
+	int		*stack_a;
+	int		*stack_b;
+	int		*ord_stack_a;
+	int		*ord_stack_b;
+
+	stack_a = malloc(sizeof(int) * 6);
+	if (!stack_a)
+		return (1);
+	stack_b = malloc(sizeof(int) * 6);
+	if (!stack_b)
+		return (1);
+	fill_stacks(stack_a, stack_b);
+	//ordenar cada stack de menor a mayor
+	ord_stack_a = get_ordered_stack(stack_a);
+//	ord_stack_b = get_ordered_stack(stack_b);
 }
