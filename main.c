@@ -149,6 +149,39 @@ int	*get_ordered_stack(int *stack)
 	return (0);
 }*/
 
+int	*get_diff(int *stack_a, int *stack_b)
+{
+	int	*diff1;
+	int	i;
+
+	i = 0:	
+	diff1 = malloc(sizeof(int) * 6);
+	if (!diff1)
+		return (NULL);
+	while (i < 6)
+	{
+		diff[i] = stack_a[i] - stack_b[i];
+		if (diff[i] < 0)
+			diff[i] x= -1;
+		i++;
+	}
+}
+
+int	do_diff_sum(int *array)
+{
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	while (i < 6)
+	{
+		res = res + array[i];
+		i++;
+	}
+	return (res);
+}
+
 int	main(void)
 {
 
@@ -156,6 +189,7 @@ int	main(void)
 	int		*stack_b;
 	int		*ord_stack_a;
 	int		*ord_stack_b;
+	int		*diff1;
 
 	stack_a = malloc(sizeof(int) * 6);
 	if (!stack_a)
@@ -164,7 +198,10 @@ int	main(void)
 	if (!stack_b)
 		return (1);
 	fill_stacks(stack_a, stack_b);
-	//ordenar cada stack de menor a mayor
 	ord_stack_a = get_ordered_stack(stack_a);
-//	ord_stack_b = get_ordered_stack(stack_b);
+	ord_stack_b = get_ordered_stack(stack_b);
+	diff1 = get_diff(stack_a, stack_b);
+	sum_res = do_diff_sum(diff1);
+	printf("res = %d\n", sum_res);
+	return (0);
 }
