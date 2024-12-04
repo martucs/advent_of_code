@@ -23,7 +23,7 @@ int	**get_data(void)
 	   i++;
 	}
 	i = 0;
-	fd = open("input", O_RDWR);
+	fd = open("input.txt", O_RDWR);
 	if (fd == -1)
 		return (write(2, "err\n", 4), NULL);
 	line = get_next_line(fd);
