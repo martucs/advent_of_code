@@ -45,13 +45,13 @@ int	**get_data(void)
 	return (matrix);
 }
 
-void    print_matrix(int **matrix, int len, int width)
+void    print_matrix(int **matrix, int length, int width)
 {
     int i;
     int x;
     
     i = 0;
-    while (matrix && i < len)
+    while (matrix && i < length)
     {
         x = 0;
         while (x < width)
